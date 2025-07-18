@@ -4,6 +4,9 @@
   "description": "星座 MCP 服务 - 提供星座信息、运势、配对等功能",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "star-mcp": "./index.js"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
