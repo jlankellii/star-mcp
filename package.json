@@ -1,6 +1,6 @@
 {
   "name": "star-mcp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "星座 MCP 服务 - 提供星座信息、运势、配对等功能",
   "main": "index.js",
   "type": "module",
