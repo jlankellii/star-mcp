@@ -7,8 +7,7 @@ import {
   ListToolsRequestSchema,
   Tool,
   TextContent,
-  ImageContent,
-  EmbeddedResource
+  ImageContent
 } from '@modelcontextprotocol/sdk/types.js';
 
 // 星座数据
