@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  star-mcp:
+    build: .
+    container_name: star-mcp-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - mcp-network
+    # 如果需要 HTTP 服务，取消注释以下行
+    # ports:
+    #   - "3000:3000"
+
+networks:
+  mcp-network:
+    driver: bridge
+
+volumes:
+  logs: 

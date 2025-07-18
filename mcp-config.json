@@ -1,0 +1,141 @@
+{
+  "name": "star-mcp",
+  "version": "1.0.0",
+  "description": "星座 MCP 服务 - 提供星座信息、运势、配对等功能",
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/star-mcp.git"
+  },
+  "homepage": "https://github.com/yourusername/star-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/star-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "zodiac",
+    "horoscope",
+    "astrology",
+    "constellation",
+    "fortune",
+    "compatibility"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "node test.js",
+    "demo": "node demo.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "mcp": {
+    "server": {
+      "command": "node",
+      "args": ["index.js"],
+      "env": {}
+    },
+    "tools": [
+      {
+        "name": "get_zodiac_info",
+        "description": "获取指定星座的详细信息，包括性格特征、守护星、元素等",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "zodiac": {
+              "type": "string",
+              "description": "星座名称（中文或英文）",
+              "enum": ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座", "aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"]
+            }
+          },
+          "required": ["zodiac"]
+        }
+      },
+      {
+        "name": "get_daily_horoscope",
+        "description": "获取指定星座的今日运势",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "zodiac": {
+              "type": "string",
+              "description": "星座名称（中文或英文）",
+              "enum": ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座", "aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"]
+            },
+            "category": {
+              "type": "string",
+              "description": "运势类别",
+              "enum": ["love", "career", "health", "wealth", "luck"],
+              "default": "luck"
+            }
+          },
+          "required": ["zodiac"]
+        }
+      },
+      {
+        "name": "get_compatibility",
+        "description": "获取两个星座的配对指数和关系分析",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "zodiac1": {
+              "type": "string",
+              "description": "第一个星座名称（中文或英文）",
+              "enum": ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座", "aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"]
+            },
+            "zodiac2": {
+              "type": "string",
+              "description": "第二个星座名称（中文或英文）",
+              "enum": ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座", "aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"]
+            }
+          },
+          "required": ["zodiac1", "zodiac2"]
+        }
+      },
+      {
+        "name": "get_all_zodiacs",
+        "description": "获取所有星座的基本信息列表",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "get_zodiac_by_date",
+        "description": "根据出生日期确定星座",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "month": {
+              "type": "integer",
+              "description": "出生月份（1-12）",
+              "minimum": 1,
+              "maximum": 12
+            },
+            "day": {
+              "type": "integer",
+              "description": "出生日期（1-31）",
+              "minimum": 1,
+              "maximum": 31
+            }
+          },
+          "required": ["month", "day"]
+        }
+      }
+    ]
+  }
+} 
