@@ -5,9 +5,8 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { 
   CallToolRequestSchema,
   ListToolsRequestSchema,
-  Tool,
-  TextContent,
-  ImageContent
+  ToolSchema,
+  TextContentSchema
 } from '@modelcontextprotocol/sdk/types.js';
 
 // 星座数据
