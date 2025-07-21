@@ -1,6 +1,7 @@
+import 'dotenv/config';
 import axios from 'axios';
 
-const API_KEY = 'cc6e6b2bd634bcc67ef838d7338b28d7';
+const API_KEY = process.env.TIAN_API_KEY;
 const BASE_URL = 'https://apis.tianapi.com/star/index';
 
 export async function fetchRemoteHoroscope(zodiac) {
