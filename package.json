@@ -1,6 +1,6 @@
 {
   "name": "star-mcp",
-  "version": "1.0.4",
+  "version": "1.0.2",
   "description": "星座 MCP 服务 - 提供星座信息、运势、配对等功能",
   "main": "index.js",
   "type": "module",
@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.4.0",
-    "axios": "^1.6.0",
+    "axios": "^1.10.0",
     "dayjs": "^1.11.10"
   },
   "devDependencies": {

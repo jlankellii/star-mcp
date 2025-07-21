@@ -5,9 +5,12 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { 
   CallToolRequestSchema,
   ListToolsRequestSchema,
-  ToolSchema,
-  TextContentSchema
+  Tool,
+  TextContent,
+  ImageContent,
+  EmbeddedResource
 } from '@modelcontextprotocol/sdk/types.js';
+import { fetchRemoteHoroscope, fetchRemoteCompatibility } from './utils/astro-api.js';
 
 // 星座数据
 const zodiacData = {
@@ -203,6 +206,12 @@ const tools = [
           description: '运势类别',
           enum: ['love', 'career', 'health', 'wealth', 'luck'],
           default: 'luck'
+        },
+        source: {
+          type: 'string',
+          description: '数据来源（local: 本地, remote: 天行数据）',
+          enum: ['local', 'remote'],
+          default: 'local'
         }
       },
       required: ['zodiac']
@@ -223,6 +232,12 @@ const tools = [
           type: 'string',
           description: '第二个星座名称（中文或英文）',
           enum: Object.keys(zodiacData).concat(Object.values(zodiacData).map(z => z.name))
+        },
+        source: {
+          type: 'string',
+          description: '数据来源（local: 本地, remote: 天行数据）',
+          enum: ['local', 'remote'],
+          default: 'local'
         }
       },
       required: ['zodiac1', 'zodiac2']
@@ -379,38 +394,49 @@ ${zodiac.description}`
       
       case 'get_daily_horoscope': {
         const zodiacKey = getZodiacKey(args.zodiac);
-        if (!zodiacKey) {
-          throw new Error(`未找到星座: ${args.zodiac}`);
-        }
-        
+        if (!zodiacKey) throw new Error(`未找到星座: ${args.zodiac}`);
         const zodiac = zodiacData[zodiacKey];
         const category = args.category || 'luck';
-        const horoscope = getRandomHoroscope(category);
-        
-        const categoryNames = {
-          love: '爱情运',
-          career: '事业运',
-          health: '健康运',
-          wealth: '财运',
-          luck: '综合运势'
-        };
-        
+        const source = args.source || 'local';
+
+        let horoscope;
+        let text;
+        if (source === 'remote') {
+          const remote = await fetchRemoteHoroscope(zodiac.english.toLowerCase());
+          if (remote.error) {
+            text = remote.error;
+          } else {
+            text = `# ${zodiac.symbol} ${zodiac.name} 今日运势（天行数据）\n\n` +
+              `- 综合运势: ${remote.all}\n` +
+              `- 爱情运势: ${remote.love}\n` +
+              `- 事业学业: ${remote.work}\n` +
+              `- 财富运势: ${remote.money}\n` +
+              `- 健康运势: ${remote.health}\n` +
+              `- 幸运颜色: ${remote.color}\n` +
+              `- 幸运数字: ${remote.number}\n` +
+              `- 速配星座: ${remote.QFriend}\n\n` +
+              `${remote.summary}`;
+          }
+        } else {
+          horoscope = getRandomHoroscope(category);
+          const categoryNames = {
+            love: '爱情运',
+            career: '事业运',
+            health: '健康运',
+            wealth: '财运',
+            luck: '综合运势'
+          };
+          text = `# ${zodiac.symbol} ${zodiac.name} 今日${categoryNames[category]}\n\n` +
+            `**运势指数:** ⭐⭐⭐⭐⭐\n\n` +
+            `**今日运势:**\n${horoscope}\n\n` +
+            `**建议:**\n- 保持积极心态\n- 注意身体健康\n- 与朋友多交流\n- 把握机会，勇敢尝试`;
+        }
+
         result = {
           content: [
             {
               type: 'text',
-              text: `# ${zodiac.symbol} ${zodiac.name} 今日${categoryNames[category]}
-
-**运势指数:** ⭐⭐⭐⭐⭐
-
-**今日运势:**
-${horoscope}
-
-**建议:**
-- 保持积极心态
-- 注意身体健康
-- 与朋友多交流
-- 把握机会，勇敢尝试`
+              text
             }
           ]
         };
@@ -420,6 +446,7 @@ ${horoscope}
       case 'get_compatibility': {
         const zodiac1Key = getZodiacKey(args.zodiac1);
         const zodiac2Key = getZodiacKey(args.zodiac2);
+        const source = args.source || 'local';
         
         if (!zodiac1Key || !zodiac2Key) {
           throw new Error('星座名称无效');
@@ -427,28 +454,36 @@ ${horoscope}
         
         const zodiac1 = zodiacData[zodiac1Key];
         const zodiac2 = zodiacData[zodiac2Key];
-        const compatibility = getCompatibilityScore(zodiac1Key, zodiac2Key);
-        
+        let text;
+        if (source === 'remote') {
+          // 传递第一个星座的中文名给天行API
+          const remote = await fetchRemoteCompatibility(zodiac1.name);
+          if (remote.error) {
+            text = remote.error;
+          } else {
+            // remote 结构参考天行API文档
+            text = `# ${zodiac1.symbol} ${zodiac1.name} & ${zodiac2.symbol} ${zodiac2.name} 配对分析（天行数据）\n\n` +
+              `- 配对指数: ${remote.zhishu}\n` +
+              `- 配对建议: ${remote.jieguo}\n` +
+              `- 配对分析: ${remote.lianai}\n` +
+              `- 友情建议: ${remote.youyi}\n` +
+              `- 事业建议: ${remote.gongzuo}\n` +
+              `- 财运建议: ${remote.caifu}`;
+          }
+        } else {
+          const compatibility = getCompatibilityScore(zodiac1Key, zodiac2Key);
+          text = `# ${zodiac1.symbol} ${zodiac1.name} & ${zodiac2.symbol} ${zodiac2.name} 配对分析\n\n` +
+            `**配对指数:** ${compatibility.score}/100\n` +
+            `**配对等级:** ${compatibility.level}\n\n` +
+            `**关系分析:**\n${compatibility.description}\n\n` +
+            `**元素关系:**\n${zodiac1.element} + ${zodiac2.element} = ${getElementCompatibility(zodiac1.element, zodiac2.element)}\n\n` +
+            `**建议:**\n- 多了解对方的性格特点\n- 保持开放和包容的心态\n- 在关系中寻找平衡点\n- 珍惜彼此的独特之处`;
+        }
         result = {
           content: [
             {
               type: 'text',
-              text: `# ${zodiac1.symbol} ${zodiac1.name} & ${zodiac2.symbol} ${zodiac2.name} 配对分析
-
-**配对指数:** ${compatibility.score}/100
-**配对等级:** ${compatibility.level}
-
-**关系分析:**
-${compatibility.description}
-
-**元素关系:**
-${zodiac1.element} + ${zodiac2.element} = ${getElementCompatibility(zodiac1.element, zodiac2.element)}
-
-**建议:**
-- 多了解对方的性格特点
-- 保持开放和包容的心态
-- 在关系中寻找平衡点
-- 珍惜彼此的独特之处`
+              text
             }
           ]
         };
