@@ -2,6 +2,10 @@
 
 一个功能完整的星座 MCP (Model Context Protocol) 服务，提供星座信息查询、运势分析、配对测试等功能。
 
+<a href="https://glama.ai/mcp/servers/@jlankellii/star-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@jlankellii/star-mcp/badge" alt="Star MCP server" />
+</a>
+
 ## 功能特性
 
 ### 🌟 核心功能
@@ -167,4 +171,4 @@ MIT License
 
 ---
 
-**注意**: 本服务仅供娱乐参考，星座运势等内容不具有科学依据。 
+**注意**: 本服务仅供娱乐参考，星座运势等内容不具有科学依据。
