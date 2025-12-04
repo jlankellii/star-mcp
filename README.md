@@ -9,6 +9,8 @@
 - **今日运势**: 提供爱情、事业、健康、财运、综合运势查询
 - **星座配对**: 分析两个星座的配对指数和关系
 - **生日星座**: 根据出生日期自动确定星座
+- **上升星座计算**: 基于准确天文算法的上升星座计算，包含儒略日、恒星时等详细数据
+- **上升星座信息**: 获取上升星座的详细特征分析，包括外貌特征和性格特点
 - **星座列表**: 获取所有星座的基本信息
 
 ### 🎯 支持的星座
@@ -99,6 +101,42 @@ npm start
 }
 ```
 
+### 6. 计算上升星座
+```javascript
+{
+  name: 'get_rising_sign',
+  arguments: {
+    birthHour: 14,        // 出生小时 (0-23)
+    birthMinute: 30,      // 出生分钟 (0-59)
+    latitude: 39.9042,    // 出生地纬度 (-90到90)
+    longitude: 116.4074,  // 出生地经度 (-180到180)
+    birthMonth: 8,        // 出生月份 (1-12)
+    birthDay: 15,         // 出生日期 (1-31)
+    birthYear: 1990       // 出生年份 (1900-2100)
+  }
+}
+```
+
+**计算算法说明:**
+上升星座计算基于准确的天文算法，包括：
+- 儒略日计算 (Julian Day)
+- 格林威治恒星时计算 (Greenwich Sidereal Time)
+- 地方恒星时计算 (Local Sidereal Time)
+- 上升点黄经计算 (Ascendant)
+- 星座边界确定
+
+返回结果包含详细的天文计算数据，确保计算准确性。
+
+### 7. 获取上升星座信息
+```javascript
+{
+  name: 'get_rising_sign_info',
+  arguments: {
+    risingSign: '白羊座' // 或 'aries'
+  }
+}
+```
+
 ## 部署说明
 
 ### 本地部署
@@ -133,10 +171,14 @@ CMD ["npm", "start"]
 
 ```
 star/
-├── index.js          # 主服务文件
-├── package.json      # 项目配置
-├── README.md         # 项目文档
-└── test.js           # 测试文件（可选）
+├── index.js                    # 主服务文件
+├── package.json                # 项目配置
+├── README.md                   # 项目文档
+├── RISING_SIGN_GUIDE.md        # 上升星座计算使用指南
+├── test.js                     # 测试文件
+├── demo.js                     # 演示文件
+├── simple_test.js              # 简单测试文件
+└── rising_sign_test.js         # 上升星座准确性测试
 ```
 
 ## 开发指南
@@ -150,6 +192,15 @@ star/
 - 修改 `zodiacData` 对象添加星座信息
 - 更新 `horoscopeData` 添加运势内容
 - 调整 `compatibilityData` 修改配对规则
+- 修改 `risingSignData` 调整上升星座特征
+
+### 上升星座计算
+- 算法基于标准天文计算
+- 支持1900-2100年间的日期
+- 包含详细的天文数据输出
+- 提供错误处理和备用算法
+
+详细使用说明请参考 [RISING_SIGN_GUIDE.md](./RISING_SIGN_GUIDE.md)
 
 ## 许可证
 

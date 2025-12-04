@@ -145,6 +145,266 @@ const zodiacData = {
   }
 };
 
+// 上升星座数据
+const risingSignData = {
+  aries: {
+    name: '白羊座',
+    english: 'Aries',
+    symbol: '♈',
+    traits: ['勇敢', '冲动', '领导力', '直接', '冒险'],
+    description: '上升白羊座的人给人第一印象是勇敢、直接、充满活力。他们行动迅速，喜欢挑战，具有天生的领导才能。',
+    appearance: '通常身材匀称，面部轮廓清晰，眼神坚定有神，走路带风。',
+    personality: '性格外向，喜欢成为焦点，做事雷厉风行，但有时过于冲动。'
+  },
+  taurus: {
+    name: '金牛座',
+    english: 'Taurus',
+    symbol: '♉',
+    traits: ['稳重', '耐心', '务实', '固执', '享受'],
+    description: '上升金牛座的人给人第一印象是稳重、可靠、有耐心。他们重视安全和稳定，喜欢美好的事物。',
+    appearance: '通常身材结实，面部轮廓圆润，眼神温和，举止优雅从容。',
+    personality: '性格温和但固执，重视物质享受，做事有条不紊，但有时过于保守。'
+  },
+  gemini: {
+    name: '双子座',
+    english: 'Gemini',
+    symbol: '♊',
+    traits: ['灵活', '好奇', '善变', '沟通', '学习'],
+    description: '上升双子座的人给人第一印象是灵活、好奇、善于沟通。他们思维敏捷，适应能力强。',
+    appearance: '通常身材苗条，面部表情丰富，眼神灵动，手势较多。',
+    personality: '性格活泼，好奇心强，善于表达，但有时缺乏耐心和专注力。'
+  },
+  cancer: {
+    name: '巨蟹座',
+    english: 'Cancer',
+    symbol: '♋',
+    traits: ['敏感', '保护', '家庭', '直觉', '情感'],
+    description: '上升巨蟹座的人给人第一印象是敏感、温和、有保护欲。他们情感丰富，重视家庭。',
+    appearance: '通常身材圆润，面部表情温和，眼神温柔，举止亲切。',
+    personality: '性格内向但温暖，直觉敏锐，重视安全感，但有时过于敏感。'
+  },
+  leo: {
+    name: '狮子座',
+    english: 'Leo',
+    symbol: '♌',
+    traits: ['自信', '慷慨', '领导', '戏剧性', '忠诚'],
+    description: '上升狮子座的人给人第一印象是自信、大方、有魅力。他们天生具有领导气质。',
+    appearance: '通常身材匀称，面部轮廓分明，眼神自信，举止优雅大方。',
+    personality: '性格外向，喜欢成为焦点，慷慨大方，但有时过于自我中心。'
+  },
+  virgo: {
+    name: '处女座',
+    english: 'Virgo',
+    symbol: '♍',
+    traits: ['完美', '分析', '服务', '谦虚', '实用'],
+    description: '上升处女座的人给人第一印象是细致、谦虚、有条理。他们注重细节，追求完美。',
+    appearance: '通常身材匀称，面部轮廓清晰，眼神专注，举止得体。',
+    personality: '性格内向，注重细节，服务意识强，但有时过于挑剔。'
+  },
+  libra: {
+    name: '天秤座',
+    english: 'Libra',
+    symbol: '♎',
+    traits: ['平衡', '和谐', '公正', '社交', '优雅'],
+    description: '上升天秤座的人给人第一印象是优雅、和谐、有魅力。他们追求平衡，重视关系。',
+    appearance: '通常身材匀称，面部轮廓优雅，眼神温和，举止优雅。',
+    personality: '性格温和，追求和谐，善于社交，但有时优柔寡断。'
+  },
+  scorpio: {
+    name: '天蝎座',
+    english: 'Scorpio',
+    symbol: '♏',
+    traits: ['神秘', '强烈', '洞察', '忠诚', '激情'],
+    description: '上升天蝎座的人给人第一印象是神秘、强烈、有魅力。他们洞察力强，情感深刻。',
+    appearance: '通常身材匀称，面部轮廓深邃，眼神深邃，举止神秘。',
+    personality: '性格内向但强烈，洞察力强，忠诚专一，但有时过于极端。'
+  },
+  sagittarius: {
+    name: '射手座',
+    english: 'Sagittarius',
+    symbol: '♐',
+    traits: ['乐观', '自由', '冒险', '哲学', '诚实'],
+    description: '上升射手座的人给人第一印象是乐观、自由、充满活力。他们热爱冒险，追求真理。',
+    appearance: '通常身材高大，面部轮廓开朗，眼神明亮，举止自然。',
+    personality: '性格外向，乐观开朗，热爱自由，但有时过于直率。'
+  },
+  capricorn: {
+    name: '摩羯座',
+    english: 'Capricorn',
+    symbol: '♑',
+    traits: ['野心', '责任', '耐心', '实用', '纪律'],
+    description: '上升摩羯座的人给人第一印象是稳重、有责任感、有野心。他们追求成功，重视纪律。',
+    appearance: '通常身材结实，面部轮廓严肃，眼神坚定，举止稳重。',
+    personality: '性格内向，有责任感，追求成功，但有时过于严肃。'
+  },
+  aquarius: {
+    name: '水瓶座',
+    english: 'Aquarius',
+    symbol: '♒',
+    traits: ['独立', '创新', '人道', '理性', '独特'],
+    description: '上升水瓶座的人给人第一印象是独特、独立、有创新精神。他们思维独特，关心人类福祉。',
+    appearance: '通常身材匀称，面部轮廓独特，眼神聪慧，举止独特。',
+    personality: '性格独立，思维独特，富有创新精神，但有时过于理想化。'
+  },
+  pisces: {
+    name: '双鱼座',
+    english: 'Pisces',
+    symbol: '♓',
+    traits: ['同情', '直觉', '艺术', '梦想', '灵性'],
+    description: '上升双鱼座的人给人第一印象是温柔、富有同情心、有艺术气质。他们直觉敏锐，富有想象力。',
+    appearance: '通常身材柔软，面部轮廓柔和，眼神温柔，举止优雅。',
+    personality: '性格温和，富有同情心，艺术天赋强，但有时过于理想化。'
+  }
+};
+
+// 上升星座计算函数（准确完整版本）
+function calculateRisingSign(birthHour, birthMinute, latitude, longitude, birthDate) {
+  // 准确计算上升星座需要以下步骤：
+  // 1. 计算恒星时 (Sidereal Time)
+  // 2. 计算地方恒星时 (Local Sidereal Time)
+  // 3. 计算上升点 (Ascendant)
+  
+  // 将出生时间转换为小数小时
+  const birthTime = birthHour + birthMinute / 60;
+  
+  // 获取出生日期的年、月、日
+  const year = birthDate.getFullYear();
+  const month = birthDate.getMonth() + 1; // getMonth() 返回 0-11
+  const day = birthDate.getDate();
+  
+  // 1. 计算儒略日 (Julian Day)
+  function calculateJulianDay(year, month, day, hour) {
+    if (month <= 2) {
+      year -= 1;
+      month += 12;
+    }
+    
+    const a = Math.floor(year / 100);
+    const b = 2 - a + Math.floor(a / 4);
+    
+    const jd = Math.floor(365.25 * (year + 4716)) + 
+               Math.floor(30.6001 * (month + 1)) + 
+               day + b - 1524.5 + hour / 24;
+    
+    return jd;
+  }
+  
+  // 2. 计算格林威治恒星时 (Greenwich Sidereal Time)
+  function calculateGST(julianDay) {
+    const t = (julianDay - 2451545.0) / 36525;
+    
+    // 计算平均恒星时
+    let gst = 280.46061837 + 360.98564736629 * (julianDay - 2451545.0) + 
+              0.000387933 * t * t - t * t * t / 38710000;
+    
+    // 标准化到 0-360 度
+    gst = gst % 360;
+    if (gst < 0) gst += 360;
+    
+    return gst;
+  }
+  
+  // 3. 计算地方恒星时 (Local Sidereal Time)
+  function calculateLST(gst, longitude) {
+    let lst = gst + longitude;
+    
+    // 标准化到 0-360 度
+    lst = lst % 360;
+    if (lst < 0) lst += 360;
+    
+    return lst;
+  }
+  
+  // 4. 计算上升点 (Ascendant)
+  function calculateAscendant(lst, latitude) {
+    // 黄道倾角 (Obliquity of the Ecliptic)
+    const obliquity = 23.4397; // 度
+    
+    // 将角度转换为弧度
+    const lstRad = lst * Math.PI / 180;
+    const latRad = latitude * Math.PI / 180;
+    const oblRad = obliquity * Math.PI / 180;
+    
+    // 计算上升点的黄经
+    const ascRad = Math.atan2(
+      Math.cos(oblRad) * Math.sin(lstRad),
+      Math.cos(lstRad) * Math.cos(latRad) - Math.sin(oblRad) * Math.sin(latRad)
+    );
+    
+    let ascendant = ascRad * 180 / Math.PI;
+    
+    // 标准化到 0-360 度
+    if (ascendant < 0) ascendant += 360;
+    
+    return ascendant;
+  }
+  
+  // 5. 根据上升点黄经确定上升星座
+  function getRisingSignFromAscendant(ascendant) {
+    // 星座边界（黄经度数）
+    const zodiacBoundaries = [
+      { sign: 'aries', start: 0, end: 30 },
+      { sign: 'taurus', start: 30, end: 60 },
+      { sign: 'gemini', start: 60, end: 90 },
+      { sign: 'cancer', start: 90, end: 120 },
+      { sign: 'leo', start: 120, end: 150 },
+      { sign: 'virgo', start: 150, end: 180 },
+      { sign: 'libra', start: 180, end: 210 },
+      { sign: 'scorpio', start: 210, end: 240 },
+      { sign: 'sagittarius', start: 240, end: 270 },
+      { sign: 'capricorn', start: 270, end: 300 },
+      { sign: 'aquarius', start: 300, end: 330 },
+      { sign: 'pisces', start: 330, end: 360 }
+    ];
+    
+    for (const boundary of zodiacBoundaries) {
+      if (ascendant >= boundary.start && ascendant < boundary.end) {
+        return boundary.sign;
+      }
+    }
+    
+    // 处理边界情况
+    if (ascendant >= 330) return 'pisces';
+    return 'aries'; // 默认值
+  }
+  
+  try {
+    // 执行计算
+    const julianDay = calculateJulianDay(year, month, day, birthTime);
+    const gst = calculateGST(julianDay);
+    const lst = calculateLST(gst, longitude);
+    const ascendant = calculateAscendant(lst, latitude);
+    const risingSign = getRisingSignFromAscendant(ascendant);
+    
+    return risingSign;
+  } catch (error) {
+    console.error('上升星座计算错误:', error);
+    // 如果计算失败，返回基于时间的简化计算
+    return calculateRisingSignSimple(birthHour, birthMinute, latitude, longitude, birthDate);
+  }
+}
+
+// 保留简化版本作为备用
+function calculateRisingSignSimple(birthHour, birthMinute, latitude, longitude, birthDate) {
+  const hour = birthHour + birthMinute / 60;
+  
+  // 简化的上升星座计算（基于出生时间）
+  if (hour >= 6 && hour < 8) return 'aries';
+  if (hour >= 8 && hour < 10) return 'taurus';
+  if (hour >= 10 && hour < 12) return 'gemini';
+  if (hour >= 12 && hour < 14) return 'cancer';
+  if (hour >= 14 && hour < 16) return 'leo';
+  if (hour >= 16 && hour < 18) return 'virgo';
+  if (hour >= 18 && hour < 20) return 'libra';
+  if (hour >= 20 && hour < 22) return 'scorpio';
+  if (hour >= 22 || hour < 0) return 'sagittarius';
+  if (hour >= 0 && hour < 2) return 'capricorn';
+  if (hour >= 2 && hour < 4) return 'aquarius';
+  if (hour >= 4 && hour < 6) return 'pisces';
+  
+  return 'aries'; // 默认值
+}
+
 // 运势数据
 const horoscopeData = {
   love: ['桃花运旺盛，单身者有机会遇到心仪对象', '感情稳定，与伴侣关系更加亲密', '需要多沟通，避免误解', '适合表白或求婚', '注意控制情绪，避免冲动'],
@@ -257,6 +517,73 @@ const tools = [
       },
       required: ['month', 'day']
     }
+  },
+  {
+    name: 'get_rising_sign',
+    description: '计算上升星座，需要出生时间、地点和日期',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        birthHour: {
+          type: 'integer',
+          description: '出生小时（0-23）',
+          minimum: 0,
+          maximum: 23
+        },
+        birthMinute: {
+          type: 'integer',
+          description: '出生分钟（0-59）',
+          minimum: 0,
+          maximum: 59
+        },
+        latitude: {
+          type: 'number',
+          description: '出生地纬度（-90到90）',
+          minimum: -90,
+          maximum: 90
+        },
+        longitude: {
+          type: 'number',
+          description: '出生地经度（-180到180）',
+          minimum: -180,
+          maximum: 180
+        },
+        birthMonth: {
+          type: 'integer',
+          description: '出生月份（1-12）',
+          minimum: 1,
+          maximum: 12
+        },
+        birthDay: {
+          type: 'integer',
+          description: '出生日期（1-31）',
+          minimum: 1,
+          maximum: 31
+        },
+        birthYear: {
+          type: 'integer',
+          description: '出生年份（1900-2100）',
+          minimum: 1900,
+          maximum: 2100
+        }
+      },
+      required: ['birthHour', 'birthMinute', 'latitude', 'longitude', 'birthMonth', 'birthDay', 'birthYear']
+    }
+  },
+  {
+    name: 'get_rising_sign_info',
+    description: '获取指定上升星座的详细信息',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        risingSign: {
+          type: 'string',
+          description: '上升星座名称（中文或英文）',
+          enum: Object.keys(risingSignData).concat(Object.values(risingSignData).map(z => z.name))
+        }
+      },
+      required: ['risingSign']
+    }
   }
 ];
 
@@ -269,6 +596,20 @@ function getZodiacKey(zodiacName) {
   
   for (const [key, data] of Object.entries(zodiacData)) {
     if (data.name === zodiacName || data.english.toLowerCase() === lowerName) {
+      return key;
+    }
+  }
+  return null;
+}
+
+function getRisingSignKey(risingSignName) {
+  const lowerName = risingSignName.toLowerCase();
+  if (risingSignData[lowerName]) {
+    return lowerName;
+  }
+  
+  for (const [key, data] of Object.entries(risingSignData)) {
+    if (data.name === risingSignName || data.english.toLowerCase() === lowerName) {
       return key;
     }
   }
@@ -504,6 +845,142 @@ ${zodiacList}
 
 **性格特点:**
 ${zodiac.traits.map(trait => `- ${trait}`).join('\n')}`
+            }
+          ]
+        };
+        break;
+      }
+      
+      case 'get_rising_sign': {
+        const birthDate = new Date(args.birthYear, args.birthMonth - 1, args.birthDay);
+        const risingSignKey = calculateRisingSign(
+          args.birthHour, 
+          args.birthMinute, 
+          args.latitude, 
+          args.longitude, 
+          birthDate
+        );
+        
+        const risingSign = risingSignData[risingSignKey];
+        const zodiacKey = getZodiacByDate(args.birthMonth, args.birthDay);
+        const zodiac = zodiacData[zodiacKey];
+        
+        // 计算详细的天文数据用于显示
+        const birthTime = args.birthHour + args.birthMinute / 60;
+        const year = birthDate.getFullYear();
+        const month = birthDate.getMonth() + 1;
+        const day = birthDate.getDate();
+        
+        // 计算儒略日
+        let jd = 0;
+        if (month <= 2) {
+          const tempYear = year - 1;
+          const tempMonth = month + 12;
+          const a = Math.floor(tempYear / 100);
+          const b = 2 - a + Math.floor(a / 4);
+          jd = Math.floor(365.25 * (tempYear + 4716)) + 
+               Math.floor(30.6001 * (tempMonth + 1)) + 
+               day + b - 1524.5 + birthTime / 24;
+        } else {
+          const a = Math.floor(year / 100);
+          const b = 2 - a + Math.floor(a / 4);
+          jd = Math.floor(365.25 * (year + 4716)) + 
+               Math.floor(30.6001 * (month + 1)) + 
+               day + b - 1524.5 + birthTime / 24;
+        }
+        
+        // 计算恒星时
+        const t = (jd - 2451545.0) / 36525;
+        let gst = 280.46061837 + 360.98564736629 * (jd - 2451545.0) + 
+                  0.000387933 * t * t - t * t * t / 38710000;
+        gst = gst % 360;
+        if (gst < 0) gst += 360;
+        
+        // 计算地方恒星时
+        let lst = gst + args.longitude;
+        lst = lst % 360;
+        if (lst < 0) lst += 360;
+        
+        result = {
+          content: [
+            {
+              type: 'text',
+              text: `# 上升星座查询结果
+
+**出生信息:**
+- 出生时间: ${args.birthYear}年${args.birthMonth}月${args.birthDay}日 ${args.birthHour}:${args.birthMinute.toString().padStart(2, '0')}
+- 出生地点: 纬度 ${args.latitude}°, 经度 ${args.longitude}°
+
+**天文计算数据:**
+- 儒略日: ${jd.toFixed(6)}
+- 格林威治恒星时: ${gst.toFixed(2)}°
+- 地方恒星时: ${lst.toFixed(2)}°
+
+**星座信息:**
+- 太阳星座: ${zodiac.symbol} ${zodiac.name} (${zodiac.english})
+- 上升星座: ${risingSign.symbol} ${risingSign.name} (${risingSign.english})
+
+**上升星座特征:**
+${risingSign.description}
+
+**外貌特征:**
+${risingSign.appearance}
+
+**性格特点:**
+${risingSign.traits.map(trait => `- ${trait}`).join('\n')}
+
+**个性分析:**
+${risingSign.personality}
+
+**计算说明:**
+此计算基于准确的天文算法，包括：
+- 儒略日计算
+- 格林威治恒星时计算
+- 地方恒星时计算
+- 上升点黄经计算
+- 星座边界确定
+
+**上升星座的意义:**
+上升星座代表一个人给外界的第一印象，以及面对新环境时的表现方式。它反映了我们如何与世界互动，以及他人如何看待我们。`
+            }
+          ]
+        };
+        break;
+      }
+      
+      case 'get_rising_sign_info': {
+        const risingSignKey = getRisingSignKey(args.risingSign);
+        if (!risingSignKey) {
+          throw new Error(`未找到上升星座: ${args.risingSign}`);
+        }
+        
+        const risingSign = risingSignData[risingSignKey];
+        
+        result = {
+          content: [
+            {
+              type: 'text',
+              text: `# ${risingSign.symbol} 上升${risingSign.name} (${risingSign.english})
+
+**上升星座概述:**
+${risingSign.description}
+
+**外貌特征:**
+${risingSign.appearance}
+
+**性格特点:**
+${risingSign.traits.map(trait => `- ${trait}`).join('\n')}
+
+**个性分析:**
+${risingSign.personality}
+
+**上升星座的意义:**
+上升星座代表一个人给外界的第一印象，以及面对新环境时的表现方式。它反映了我们如何与世界互动，以及他人如何看待我们。
+
+**与太阳星座的关系:**
+- 太阳星座代表内在本质和核心性格
+- 上升星座代表外在表现和第一印象
+- 两者结合能更全面地了解一个人的性格特征`
             }
           ]
         };

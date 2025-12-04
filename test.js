@@ -31,6 +31,24 @@ const testCases = [
     name: '获取所有星座列表',
     tool: 'get_all_zodiacs',
     args: {}
+  },
+  {
+    name: '计算上升星座',
+    tool: 'get_rising_sign',
+    args: { 
+      birthHour: 14, 
+      birthMinute: 30, 
+      latitude: 39.9042, 
+      longitude: 116.4074, 
+      birthMonth: 8, 
+      birthDay: 15, 
+      birthYear: 1990 
+    }
+  },
+  {
+    name: '获取上升白羊座信息',
+    tool: 'get_rising_sign_info',
+    args: { risingSign: '白羊座' }
   }
 ];
 
@@ -197,6 +215,8 @@ function manualTest() {
   console.log('3. 配对分析 - 基于元素和星座特性');
   console.log('4. 生日查询 - 准确的日期范围计算');
   console.log('5. 星座列表 - 完整的12星座信息');
+  console.log('6. 上升星座计算 - 基于出生时间、地点和日期');
+  console.log('7. 上升星座信息查询 - 详细的特征分析');
 }
 
 // 运行测试
