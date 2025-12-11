@@ -5,19 +5,72 @@ services:
     build: .
     container_name: star-mcp-service
     restart: unless-stopped
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # 环境变量配置
     environment:
       - NODE_ENV=production
+      - PERFORMANCE_MONITOR=true
+      - PERF_LOG_INTERVAL=10000
+      - PERF_RESET_INTERVAL=60000
+      - MAX_MEMORY_MB=512
+      - MAX_CONCURRENT=20
+      - RATE_LIMIT_ENABLED=true
+      - MAX_RPS=100
+      - MAX_RPM=1000
+      - LOG_LEVEL=info
+      - LOG_ERRORS=true
+    
+    # 卷挂载
     volumes:
       - ./logs:/app/logs
+      - performance-data:/app/data
+    
+    # 网络配置
     networks:
       - mcp-network
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('healthy')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
     # 如果需要 HTTP 服务，取消注释以下行
     # ports:
     #   - "3000:3000"
+
+  # 可选: 多实例部署
+  # star-mcp-replica:
+  #   build: .
+  #   restart: unless-stopped
+  #   deploy:
+  #     replicas: 3
+  #     resources:
+  #       limits:
+  #         cpus: '0.5'
+  #         memory: 256M
+  #   environment:
+  #     - NODE_ENV=production
+  #     - PERFORMANCE_MONITOR=true
+  #   networks:
+  #     - mcp-network
 
 networks:
   mcp-network:
     driver: bridge
 
 volumes:
-  logs: 
+  logs:
+  performance-data: 

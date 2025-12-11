@@ -1,7 +1,7 @@
 {
   "name": "star-mcp",
-  "version": "2.2.1",
-  "description": "星座 MCP 服务 - 提供星座信息、运势、配对等功能",
+  "version": "2.3.0",
+  "description": "星座 MCP 服务 - 提供星座信息、运势、配对等功能，含性能监控",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -9,20 +9,37 @@
   },
   "scripts": {
     "start": "node index.js",
+    "start:prod": "NODE_ENV=production PERFORMANCE_MONITOR=true node index.js",
     "dev": "node --watch index.js",
     "test": "node test.js",
     "demo": "node demo.js",
-    "test:manual": "node test.js --manual"
+    "test:manual": "node test.js --manual",
+    "benchmark": "node benchmark.js",
+    "benchmark:suite": "node benchmark.js --suite",
+    "docker:build": "docker build -t star-mcp:latest .",
+    "docker:run": "docker-compose up -d",
+    "docker:stop": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:stats": "docker stats star-mcp-service"
   },
   "keywords": [
     "mcp",
     "zodiac",
     "horoscope",
     "astrology",
-    "constellation"
+    "constellation",
+    "performance",
+    "monitoring"
   ],
   "author": "Your Name",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/star-mcp.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.4.0",
     "axios": "^1.6.0",

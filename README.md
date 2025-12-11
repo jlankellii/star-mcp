@@ -161,24 +161,56 @@ CMD ["npm", "start"]
 3. 编写完整的文档
 4. 提交到 MCP 注册表
 
+## 性能监控
+
+本项目集成了完整的性能监控系统，实时追踪服务性能指标。
+
+### 监控功能
+- ✅ **QPS 监控**: 实时每秒查询数统计
+- ✅ **响应时间**: P50/P95/P99 百分位统计
+- ✅ **内存监控**: 堆内存使用和泄漏检测
+- ✅ **按工具统计**: 每个工具的独立性能指标
+- ✅ **错误追踪**: 失败率和错误统计
+
+### 快速使用
+
+```bash
+# 启动服务（自动启用监控）
+npm start
+
+# 运行性能测试
+npm run benchmark
+
+# 运行完整测试套件
+npm run benchmark:suite
+```
+
+详细文档请查看 [PERFORMANCE.md](./PERFORMANCE.md)
+
 ## 技术栈
 
 - **Node.js**: 运行时环境
 - **MCP SDK**: Model Context Protocol 官方 SDK
 - **ES Modules**: 使用现代 JavaScript 模块系统
+- **性能监控**: 内置高精度性能监控系统
 
 ## 项目结构
 
 ```
 star/
 ├── index.js                    # 主服务文件
+├── performance-monitor.js      # 性能监控模块
+├── config.js                   # 配置管理
+├── benchmark.js                # 性能测试脚本
 ├── package.json                # 项目配置
+├── Dockerfile                  # Docker 配置
+├── docker-compose.yml          # Docker Compose 配置
 ├── README.md                   # 项目文档
+├── PERFORMANCE.md              # 性能监控文档
 ├── RISING_SIGN_GUIDE.md        # 上升星座计算使用指南
 ├── test.js                     # 测试文件
 ├── demo.js                     # 演示文件
-├── simple_test.js              # 简单测试文件
-└── rising_sign_test.js         # 上升星座准确性测试
+└── env.example                 # 环境变量示例
 ```
 
 ## 开发指南

@@ -8,6 +8,19 @@ import {
   ToolSchema,
   TextContentSchema
 } from '@modelcontextprotocol/sdk/types.js';
+import { createMonitor } from './performance-monitor.js';
+import { config, validateConfig, printConfig } from './config.js';
+
+// 初始化配置
+validateConfig();
+printConfig();
+
+// 初始化性能监控
+const monitor = createMonitor({
+  enabled: config.performance.enabled,
+  logInterval: config.performance.logInterval,
+  resetInterval: config.performance.resetInterval
+});
 
 // 星座数据
 const zodiacData = {
@@ -684,6 +697,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   
+  // 开始性能监控
+  const requestContext = monitor.startRequest(name);
+  
   try {
     let result;
     
@@ -991,8 +1007,14 @@ ${risingSign.personality}
         throw new Error(`未知工具: ${name}`);
     }
     
+    // 记录成功请求
+    monitor.endRequest(requestContext, true);
+    
     return result;
   } catch (error) {
+    // 记录失败请求
+    monitor.endRequest(requestContext, false);
+    
     return {
       content: [
         {
@@ -1021,4 +1043,34 @@ function getElementCompatibility(element1, element2) {
 const transport = new StdioServerTransport();
 await server.connect(transport);
 
-console.error('星座 MCP 服务已启动'); 
+console.error('✨ 星座 MCP 服务已启动');
+
+// 优雅关闭处理
+process.on('SIGINT', () => {
+  console.error('\n🛑 收到终止信号，正在关闭服务...');
+  monitor.stopMonitoring();
+  monitor.logStatistics();
+  process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+  console.error('\n🛑 收到终止信号，正在关闭服务...');
+  monitor.stopMonitoring();
+  monitor.logStatistics();
+  process.exit(0);
+});
+
+// 监控内存使用
+setInterval(() => {
+  const memoryLeak = monitor.checkMemoryLeak();
+  if (memoryLeak) {
+    console.error(`⚠️  ${memoryLeak.message}: ${memoryLeak.trend}`);
+  }
+  
+  // 检查内存限制
+  const memoryUsage = process.memoryUsage();
+  const memoryUsedMB = memoryUsage.heapUsed / 1024 / 1024;
+  if (memoryUsedMB > config.resources.maxMemoryMB * 0.9) {
+    console.error(`⚠️  内存使用接近限制: ${memoryUsedMB.toFixed(2)}MB / ${config.resources.maxMemoryMB}MB`);
+  }
+}, 30000); // 每30秒检查一次 
