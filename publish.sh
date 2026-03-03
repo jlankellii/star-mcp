@@ -97,10 +97,27 @@ read -r response
 
 if [[ "$response" =~ ^[Yy]$ ]]; then
     echo -e "${BLUE}发布到 NPM...${NC}"
-    npm publish --access public
-    
-    echo -e "${GREEN}✅ 发布成功！${NC}"
-    echo -e "${BLUE}包地址: https://www.npmjs.com/package/$PACKAGE_NAME${NC}"
+    if npm publish --access public; then
+        echo -e "${GREEN}✅ 发布成功！${NC}"
+        echo -e "${BLUE}包地址: https://www.npmjs.com/package/$PACKAGE_NAME${NC}"
+    else
+        echo -e "${RED}发布失败${NC}"
+        echo -e "${YELLOW}可能需要 2FA 验证码 (OTP)${NC}"
+        echo -e "${BLUE}请输入 OTP 验证码 (留空跳过):${NC}"
+        read -r otp
+        if [ -n "$otp" ]; then
+            if npm publish --access public --otp="$otp"; then
+                echo -e "${GREEN}✅ 发布成功！${NC}"
+                echo -e "${BLUE}包地址: https://www.npmjs.com/package/$PACKAGE_NAME${NC}"
+            else
+                echo -e "${RED}发布失败${NC}"
+                exit 1
+            fi
+        else
+            echo -e "${RED}发布已取消${NC}"
+            exit 1
+        fi
+    fi
 else
     echo -e "${YELLOW}取消发布${NC}"
     exit 0
