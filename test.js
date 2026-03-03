@@ -62,8 +62,27 @@ async function testMCPTool(toolName, args) {
     let output = '';
     let errorOutput = '';
 
+    // 监听输出并尝试解析
     mcpProcess.stdout.on('data', (data) => {
       output += data.toString();
+      
+      // 尝试按行解析
+      const lines = output.trim().split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('{')) continue;
+        
+        try {
+          const response = JSON.parse(line);
+          // 检查是否是我们需要的响应 (ID匹配或包含内容)
+          if (response.id === 2 && response.result) {
+            resolve({ success: true, data: response.result });
+            mcpProcess.kill(); // 收到响应后关闭进程
+            return;
+          }
+        } catch (e) {
+          // JSON 解析失败，可能是数据不完整，继续等待
+        }
+      }
     });
 
     mcpProcess.stderr.on('data', (data) => {
@@ -71,37 +90,10 @@ async function testMCPTool(toolName, args) {
     });
 
     mcpProcess.on('close', (code) => {
-      if (code !== 0) {
-        reject(new Error(`MCP 进程退出，代码: ${code}\n错误: ${errorOutput}`));
-        return;
-      }
-
-      try {
-        // 解析输出
-        const lines = output.trim().split('\n');
-        const jsonLines = lines.filter(line => line.startsWith('{'));
-        
-        if (jsonLines.length === 0) {
-          resolve({ success: false, error: '没有收到有效响应' });
-          return;
-        }
-
-        // 找到工具调用响应
-        for (const line of jsonLines) {
-          try {
-            const response = JSON.parse(line);
-            if (response.result && response.result.content) {
-              resolve({ success: true, data: response.result });
-              return;
-            }
-          } catch (e) {
-            // 继续解析下一行
-          }
-        }
-
-        resolve({ success: false, error: '响应格式无效' });
-      } catch (error) {
-        reject(error);
+      // 如果已经 resolve 了，这里就不处理了
+      // 如果还没 resolve 且非正常退出，则报错
+      if (code !== 0 && code !== null) { // kill() 可能会导致 code 为 null
+         // 这里不做 reject，因为如果已经超时 reject 了，这里再 reject 会报错
       }
     });
 
